@@ -32,3 +32,9 @@ jobs:
 
     - name: Build 02_2
       run: go build -v github.com/glennhartmann/aoc23/src/02_2
+
+    - name: Build 03_1
+      run: go build -v github.com/glennhartmann/aoc23/src/03_1
+
+    - name: Build 03_2
+      run: go build -v github.com/glennhartmann/aoc23/src/03_2
