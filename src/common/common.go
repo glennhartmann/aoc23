@@ -1,6 +1,8 @@
 package common
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func IsDigit(b byte) bool {
 	return b >= '0' && b <= '9'

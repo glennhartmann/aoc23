@@ -1,27 +1,14 @@
 package main
 
 import (
-	"io"
 	"log"
-	"os"
-	"strings"
 
 	"github.com/glennhartmann/aoc23/src/common"
 	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
-	input, err := io.ReadAll(os.Stdin)
-	if err != nil {
-		panic("error reading from stdin")
-	}
-
-	inputStr := string(input)
-	lines := strings.Split(inputStr, "\n")
-
-	if lines[len(lines)-1] == "" {
-		lines = lines[:len(lines)-1]
-	}
+	lines := must.GetFullInput()
 
 	sum := 0
 	for lineIndex, line := range lines {

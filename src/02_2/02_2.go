@@ -1,31 +1,17 @@
 package main
 
 import (
-	"bufio"
-	"io"
 	"log"
-	"os"
 	"strconv"
 	"strings"
+
+	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
-	r := bufio.NewReader(os.Stdin)
-	gameID := 1
 	powerSum := 0
-	for {
-		s, err := r.ReadString('\n')
-		if err == io.EOF {
-			log.Printf("EOF")
-			break
-		}
-		if err != nil {
-			panic("unable to read")
-		}
-		log.Printf("current line: %q", s)
-
-		s = strings.TrimSpace(s)
-
+	must.ForEachLineOfStreamedInput(func(lineNum int, s string) {
+		gameID := lineNum + 1
 		sSplit := strings.Split(s, ": ")
 		groups := sSplit[1]
 		groupsSplit := strings.Split(groups, "; ")
@@ -53,9 +39,7 @@ func main() {
 		}
 
 		powerSum += maxGroups["red"] * maxGroups["green"] * maxGroups["blue"]
-
-		gameID++
-	}
+	})
 
 	log.Printf("sum: %d", powerSum)
 }

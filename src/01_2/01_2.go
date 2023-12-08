@@ -1,29 +1,16 @@
 package main
 
 import (
-	"bufio"
-	"io"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/glennhartmann/aoc23/src/common"
+	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
-	r := bufio.NewReader(os.Stdin)
 	sum := 0
-	for {
-		s, err := r.ReadString('\n')
-		if err == io.EOF {
-			log.Printf("EOF")
-			break
-		}
-		if err != nil {
-			panic("unable to read")
-		}
-		log.Printf("current line: %q", s)
-
+	must.ForEachLineOfStreamedInput(func(lineNum int, s string) {
 		first := getStartOfFirstDigit(s)
 		log.Printf("first digit start: %s", first)
 
@@ -34,7 +21,7 @@ func main() {
 		log.Printf("value: %d", val)
 
 		sum += val
-	}
+	})
 	log.Printf("sum: %d", sum)
 }
 

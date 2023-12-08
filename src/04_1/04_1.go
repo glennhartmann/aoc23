@@ -1,32 +1,17 @@
 package main
 
 import (
-	"bufio"
-	"io"
 	"log"
 	"math"
-	"os"
 	"strings"
 
 	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
-	r := bufio.NewReader(os.Stdin)
-	cardNum := 1
 	sum := int64(0)
-	for {
-		s, err := r.ReadString('\n')
-		if err == io.EOF {
-			log.Printf("EOF")
-			break
-		}
-		if err != nil {
-			panic("unable to read")
-		}
-		s = strings.TrimSuffix(s, "\n")
-		log.Printf("current line: %q", s)
-
+	must.ForEachLineOfStreamedInput(func(lineNum int, s string) {
+		cardNum := lineNum + 1
 		sSplit := strings.Split(s, ": ")
 		data := sSplit[1]
 		dataSplit := strings.Split(data, " | ")
@@ -59,9 +44,7 @@ func main() {
 		}
 		sum += points
 		log.Printf("Card %d is worth %d points; cumulative sum so far: %d", cardNum, points, sum)
-
-		cardNum++
-	}
+	})
 	log.Printf("total points: %d", sum)
 }
 

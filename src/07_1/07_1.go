@@ -1,9 +1,7 @@
 package main
 
 import (
-	"io"
 	"log"
-	"os"
 	"sort"
 	"strings"
 
@@ -59,17 +57,7 @@ func (ht handType) String() string {
 }
 
 func main() {
-	input, err := io.ReadAll(os.Stdin)
-	if err != nil {
-		panic("error reading from stdin")
-	}
-
-	inputStr := string(input)
-	lines := strings.Split(inputStr, "\n")
-
-	if lines[len(lines)-1] == "" {
-		lines = lines[:len(lines)-1]
-	}
+	lines := must.GetFullInput()
 
 	handBids := make([]handBid, 0, len(lines))
 	for i, line := range lines {
