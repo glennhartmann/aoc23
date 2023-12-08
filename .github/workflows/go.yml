@@ -51,6 +51,9 @@ jobs:
     - name: Build 05_2
       run: go build -v github.com/glennhartmann/aoc23/src/05_2
 
+    - name: Build common_05
+      run: go build -v github.com/glennhartmann/aoc23/src/common_05
+
     - name: Build 06_1
       run: go build -v github.com/glennhartmann/aoc23/src/06_1
 

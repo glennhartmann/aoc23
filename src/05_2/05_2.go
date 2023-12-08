@@ -1,132 +1,18 @@
 package main
 
 import (
-	"bufio"
-	"io"
 	"log"
-	"os"
-	"strings"
 
-	"github.com/glennhartmann/aoc23/src/common/must"
+	c05 "github.com/glennhartmann/aoc23/src/common_05"
 )
-
-type rangeMap struct {
-	dst  int64
-	src  int64
-	rLen int64
-}
 
 type normalRange struct {
 	start int64
 	rLen  int64
 }
 
-type stateType int
-
-const (
-	stateSeeds stateType = iota
-	stateSeedToSoilHeader
-	stateSeedToSoil
-	stateSoilToFertilizerHeader
-	stateSoilToFertilizer
-	stateFertilizerToWaterHeader
-	stateFertilizerToWater
-	stateWaterToLightHeader
-	stateWaterToLight
-	stateLightToTemperatureHeader
-	stateLightToTemperature
-	stateTemperatureToHumidityHeader
-	stateTemperatureToHumidity
-	stateHumidityToLocationHeader
-	stateHumidityToLocation
-	stateEnd
-)
-
 func main() {
-	seeds := make([]int64, 0, 50)
-	seedToSoil := make([]rangeMap, 0, 50)
-	soilToFertilizer := make([]rangeMap, 0, 50)
-	fertilizerToWater := make([]rangeMap, 0, 50)
-	waterToLight := make([]rangeMap, 0, 50)
-	lightToTemperature := make([]rangeMap, 0, 50)
-	temperatureToHumidity := make([]rangeMap, 0, 50)
-	humidityToLocation := make([]rangeMap, 0, 50)
-
-	state := stateSeeds
-
-	r := bufio.NewReader(os.Stdin)
-outer:
-	for {
-		s, err := r.ReadString('\n')
-		if err == io.EOF {
-			log.Printf("EOF")
-			break
-		}
-		if err != nil {
-			panic("unable to read")
-		}
-		s = strings.TrimSuffix(s, "\n")
-		log.Printf("current line: %q", s)
-
-		rMap := rangeMap{}
-		switch state {
-		case stateSeeds:
-			if s == "" {
-				state++
-				continue
-			}
-			seedsSpl := strings.Split(strings.Split(s, ": ")[1], " ")
-			for _, ss := range seedsSpl {
-				seeds = append(seeds, must.Atoi64(ss))
-			}
-			log.Printf("seeds: %v", seeds)
-			continue
-		case stateSeedToSoil, stateSoilToFertilizer, stateFertilizerToWater, stateWaterToLight, stateLightToTemperature, stateTemperatureToHumidity, stateHumidityToLocation:
-			if s == "" {
-				state++
-				continue
-			}
-			rSpl := strings.Split(s, " ")
-			rMap = rangeMap{
-				dst:  must.Atoi64(rSpl[0]),
-				src:  must.Atoi64(rSpl[1]),
-				rLen: must.Atoi64(rSpl[2]),
-			}
-		case stateSeedToSoilHeader, stateSoilToFertilizerHeader, stateFertilizerToWaterHeader, stateWaterToLightHeader, stateLightToTemperatureHeader, stateTemperatureToHumidityHeader, stateHumidityToLocationHeader:
-			state++
-			continue
-		case stateEnd:
-			break outer
-		default:
-			panic("bad state")
-		}
-
-		switch state {
-		case stateSeedToSoil:
-			seedToSoil = append(seedToSoil, rMap)
-			log.Printf("adding seedsToSoil rangeMap: %v", rMap)
-		case stateSoilToFertilizer:
-			soilToFertilizer = append(soilToFertilizer, rMap)
-			log.Printf("adding soilToFertilizer rangeMap: %v", rMap)
-		case stateFertilizerToWater:
-			fertilizerToWater = append(fertilizerToWater, rMap)
-			log.Printf("adding fertilizerToWater rangeMap: %v", rMap)
-		case stateWaterToLight:
-			waterToLight = append(waterToLight, rMap)
-			log.Printf("adding waterToLight rangeMap: %v", rMap)
-		case stateLightToTemperature:
-			lightToTemperature = append(lightToTemperature, rMap)
-			log.Printf("adding lightToTemperature rangeMap: %v", rMap)
-		case stateTemperatureToHumidity:
-			temperatureToHumidity = append(temperatureToHumidity, rMap)
-			log.Printf("adding temperatureToHumidity rangeMap: %v", rMap)
-		case stateHumidityToLocation:
-			humidityToLocation = append(humidityToLocation, rMap)
-			log.Printf("adding humidityToLocation rangeMap: %v", rMap)
-		default:
-			panic("bad state")
-		}
-	}
+	seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation := c05.ParseInput()
 
 	seedRanges := make([]normalRange, 0, len(seeds)/2)
 	for i := 0; i < len(seeds); i += 2 {
@@ -159,7 +45,7 @@ outer:
 
 var badRange = normalRange{-1, -1}
 
-func resolveMaps(v []normalRange, maps []rangeMap) []normalRange {
+func resolveMaps(v []normalRange, maps []c05.RangeMap) []normalRange {
 	ret := make([]normalRange, 0, 500)
 outer:
 	for i := 0; i < len(v); i++ {
@@ -171,7 +57,7 @@ outer:
 			}
 
 			matchCpy := match
-			match.start = rMap.dst + match.start - rMap.src
+			match.start = rMap.Dst + match.start - rMap.Src
 			log.Printf("converting match from src space (%v) to dst space (%v)", matchCpy, match)
 
 			ret = append(ret, match)
@@ -188,7 +74,7 @@ outer:
 	return ret
 }
 
-func findInRangeMap(v normalRange, m rangeMap) (left, match, right normalRange) {
+func findInRangeMap(v normalRange, m c05.RangeMap) (left, match, right normalRange) {
 	match = getOverlap(v, m)
 	if match == badRange {
 		return badRange, badRange, badRange
@@ -216,14 +102,14 @@ func findInRangeMap(v normalRange, m rangeMap) (left, match, right normalRange) 
 	return left, match, right
 }
 
-func getOverlap(v normalRange, m rangeMap) normalRange {
-	mEnd := m.src + m.rLen - 1
+func getOverlap(v normalRange, m c05.RangeMap) normalRange {
+	mEnd := m.Src + m.RLen - 1
 	vEnd := v.start + v.rLen - 1
-	if v.start > mEnd || vEnd < m.src {
+	if v.start > mEnd || vEnd < m.Src {
 		return badRange
 	}
 
-	start := max(v.start, m.src)
+	start := max(v.start, m.Src)
 	return normalRange{
 		start: start,
 		rLen:  min(vEnd, mEnd) - start + 1,
