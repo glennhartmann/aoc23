@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -63,4 +64,12 @@ func GetFullInput() []string {
 	}
 
 	return lines
+}
+
+func FindStringSubmatch(rx *regexp.Regexp, s string, expectedLen int) []string {
+	m := rx.FindStringSubmatch(s)
+	if len(m) != expectedLen {
+		common.Panicf("regexp match returned len %d, wanted %d", len(m), expectedLen)
+	}
+	return m
 }
