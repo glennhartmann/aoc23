@@ -4,8 +4,10 @@ import (
 	"io"
 	"log"
 	"os"
-	"strconv"
 	"strings"
+
+	"github.com/glennhartmann/aoc23/src/common"
+	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
@@ -31,7 +33,7 @@ func main() {
 			}
 
 			numStr := line[start : end+1]
-			num := val(numStr)
+			num := must.Atoi(numStr)
 			log.Printf("line %d: found number: %d", lineIndex, num)
 
 			if isAdjacentToSymbol(lines, lineIndex, start, end) {
@@ -54,12 +56,12 @@ func getNextNumber(line string, scanStart int) (numberStart, numberEnd int) {
 	inNumber := false
 	for i := scanStart; i < len(line); i++ {
 		if inNumber {
-			if isDigit(line[i]) {
+			if common.IsDigit(line[i]) {
 				numberEnd = i
 			} else {
 				break
 			}
-		} else if isDigit(line[i]) {
+		} else if common.IsDigit(line[i]) {
 			numberStart = i
 			numberEnd = i
 			inNumber = true
@@ -67,10 +69,6 @@ func getNextNumber(line string, scanStart int) (numberStart, numberEnd int) {
 	}
 
 	return numberStart, numberEnd
-}
-
-func isDigit(b byte) bool {
-	return b >= '0' && b <= '9'
 }
 
 func isAdjacentToSymbol(lines []string, lineIndex, start, end int) bool {
@@ -91,13 +89,5 @@ func isAdjacentToSymbol(lines []string, lineIndex, start, end int) bool {
 }
 
 func isSymbol(b byte) bool {
-	return b != '.' && !isDigit(b)
-}
-
-func val(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		panic("bad strconv")
-	}
-	return i
+	return b != '.' && !common.IsDigit(b)
 }

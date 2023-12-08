@@ -4,8 +4,10 @@ import (
 	"io"
 	"log"
 	"os"
-	"strconv"
 	"strings"
+
+	"github.com/glennhartmann/aoc23/src/common"
+	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
@@ -53,10 +55,6 @@ func getNextAsterisk(line string, scanStart int) int {
 	return idx + scanStart
 }
 
-func isDigit(b byte) bool {
-	return b >= '0' && b <= '9'
-}
-
 func getAdjacentNumbers(lines []string, lineIndex, col int) []int {
 	adjacencies := []int{}
 
@@ -71,7 +69,7 @@ func getAdjacentNumbers(lines []string, lineIndex, col int) []int {
 }
 
 func topBottomAdjacencies(line string, col int) []int {
-	if isDigit(line[col]) {
+	if common.IsDigit(line[col]) {
 		return []int{numberSurrounding(line, col)}
 	}
 
@@ -80,10 +78,10 @@ func topBottomAdjacencies(line string, col int) []int {
 
 func leftRightAdjacencies(line string, col int) []int {
 	nums := []int{}
-	if col > 0 && isDigit(line[col-1]) {
+	if col > 0 && common.IsDigit(line[col-1]) {
 		nums = append(nums, numberSurrounding(line, col-1))
 	}
-	if col < len(line)-1 && isDigit(line[col+1]) {
+	if col < len(line)-1 && common.IsDigit(line[col+1]) {
 		nums = append(nums, numberSurrounding(line, col+1))
 	}
 
@@ -94,7 +92,7 @@ func numberSurrounding(line string, col int) int {
 	left, right := col, col
 
 	for i := col; i >= 0; i-- {
-		if isDigit(line[i]) {
+		if common.IsDigit(line[i]) {
 			left = i
 		} else {
 			break
@@ -102,20 +100,12 @@ func numberSurrounding(line string, col int) int {
 	}
 
 	for i := col; i < len(line); i++ {
-		if isDigit(line[i]) {
+		if common.IsDigit(line[i]) {
 			right = i
 		} else {
 			break
 		}
 	}
 
-	return val(line[left : right+1])
-}
-
-func val(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		panic("bad strconv")
-	}
-	return i
+	return must.Atoi(line[left : right+1])
 }

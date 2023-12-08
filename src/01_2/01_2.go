@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/glennhartmann/aoc23/src/common"
 )
 
 func main() {
@@ -55,7 +57,7 @@ func getStartOfLastDigit(s string) string {
 }
 
 func isStartOfDigit(s string) bool {
-	return s[0] >= '0' && s[0] <= '9' || isStartOfSpelledOutDigit(s)
+	return common.IsDigit(s[0]) || isStartOfSpelledOutDigit(s)
 }
 
 func isStartOfSpelledOutDigit(s string) bool {
@@ -91,8 +93,8 @@ func getValueForDigits(first, last string) int {
 }
 
 func startOfDigitToInt(s string) int {
-	if s[0] >= '0' && s[0] <= '9' {
-		return int(s[0] - '0')
+	if common.IsDigit(s[0]) {
+		return common.DigitToInt(s[0])
 	}
 	return startOfSpelledOutDigitToInt(s)
 }

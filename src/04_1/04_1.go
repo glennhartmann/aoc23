@@ -6,8 +6,9 @@ import (
 	"log"
 	"math"
 	"os"
-	"strconv"
 	"strings"
+
+	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
@@ -37,7 +38,7 @@ func main() {
 			if winner == "" {
 				continue
 			}
-			winners[val(winner)] = struct{}{}
+			winners[must.Atoi(winner)] = struct{}{}
 		}
 
 		numWinners := 0
@@ -45,7 +46,7 @@ func main() {
 			if myNum == "" {
 				continue
 			}
-			num := val(myNum)
+			num := must.Atoi(myNum)
 			if _, ok := winners[num]; ok {
 				log.Printf("Card %d: %d is a winning number", cardNum, num)
 				numWinners++
@@ -62,14 +63,6 @@ func main() {
 		cardNum++
 	}
 	log.Printf("total points: %d", sum)
-}
-
-func val(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		panic("bad strconv")
-	}
-	return i
 }
 
 func intPow(base, exp int) int64 {

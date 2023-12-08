@@ -5,8 +5,10 @@ import (
 	"log"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
+
+	"github.com/glennhartmann/aoc23/src/common"
+	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 type handBid struct {
@@ -74,7 +76,7 @@ func main() {
 		spLine := strings.Split(line, " ")
 		handBids = append(handBids, handBid{
 			hand:     spLine[0],
-			bid:      val(spLine[1]),
+			bid:      must.Atoi64(spLine[1]),
 			handType: getHandType(spLine[0]),
 		})
 		log.Printf("line %d: hand %s with bid %s has type %v", i, spLine[0], spLine[1], handBids[len(handBids)-1].handType)
@@ -155,7 +157,7 @@ func cardValuesLess(h1, h2 string) bool {
 }
 
 func cardVal(c byte) int {
-	if isDigit(c) {
+	if common.IsDigit(c) {
 		return int(c - '0')
 	}
 	switch c {
@@ -171,16 +173,4 @@ func cardVal(c byte) int {
 		return A
 	}
 	return -1
-}
-
-func val(s string) int64 {
-	i, err := strconv.ParseInt(s, 10, 64)
-	if err != nil {
-		panic("bad strconv")
-	}
-	return i
-}
-
-func isDigit(b byte) bool {
-	return b >= '0' && b <= '9'
 }

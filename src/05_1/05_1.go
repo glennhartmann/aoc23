@@ -5,8 +5,9 @@ import (
 	"io"
 	"log"
 	"os"
-	"strconv"
 	"strings"
+
+	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 type rangeMap struct {
@@ -71,7 +72,7 @@ outer:
 			}
 			seedsSpl := strings.Split(strings.Split(s, ": ")[1], " ")
 			for _, ss := range seedsSpl {
-				seeds = append(seeds, val(ss))
+				seeds = append(seeds, must.Atoi64(ss))
 			}
 			log.Printf("seeds: %v", seeds)
 			continue
@@ -82,9 +83,9 @@ outer:
 			}
 			rSpl := strings.Split(s, " ")
 			rMap = rangeMap{
-				dst:  val(rSpl[0]),
-				src:  val(rSpl[1]),
-				rLen: val(rSpl[2]),
+				dst:  must.Atoi64(rSpl[0]),
+				src:  must.Atoi64(rSpl[1]),
+				rLen: must.Atoi64(rSpl[2]),
 			}
 		case stateSeedToSoilHeader, stateSoilToFertilizerHeader, stateFertilizerToWaterHeader, stateWaterToLightHeader, stateLightToTemperatureHeader, stateTemperatureToHumidityHeader, stateHumidityToLocationHeader:
 			state++
@@ -158,12 +159,4 @@ func findInRangeMap(v int64, m rangeMap) int64 {
 		return m.dst + v - m.src
 	}
 	return -1
-}
-
-func val(s string) int64 {
-	i, err := strconv.ParseInt(s, 10, 64)
-	if err != nil {
-		panic("bad strconv")
-	}
-	return i
 }

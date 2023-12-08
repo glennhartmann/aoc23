@@ -5,6 +5,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"github.com/glennhartmann/aoc23/src/common"
 )
 
 func main() {
@@ -37,7 +39,7 @@ func main() {
 
 func getFirstDigit(s string) byte {
 	for i := 0; i < len(s); i++ {
-		if isDigit(s[i]) {
+		if common.IsDigit(s[i]) {
 			return s[i]
 		}
 	}
@@ -46,21 +48,13 @@ func getFirstDigit(s string) byte {
 
 func getLastDigit(s string) byte {
 	for i := len(s) - 1; i >= 0; i-- {
-		if isDigit(s[i]) {
+		if common.IsDigit(s[i]) {
 			return s[i]
 		}
 	}
 	panic("no digits found")
 }
 
-func isDigit(b byte) bool {
-	return b >= '0' && b <= '9'
-}
-
 func getValueForDigits(first, last byte) int {
-	return digitToInt(first)*10 + digitToInt(last)
-}
-
-func digitToInt(b byte) int {
-	return int(b - '0')
+	return common.DigitToInt(first)*10 + common.DigitToInt(last)
 }
