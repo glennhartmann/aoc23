@@ -90,20 +90,6 @@ func isAdjacentToSymbol(lines []string, lineIndex, start, end int) bool {
 	return false
 }
 
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-
 func isSymbol(b byte) bool {
 	return b != '.' && !isDigit(b)
 }

@@ -236,17 +236,3 @@ func val(s string) int64 {
 	}
 	return i
 }
-
-func max(x, y int64) int64 {
-	if x > y {
-		return x
-	}
-	return y
-}
-
-func min(x, y int64) int64 {
-	if x < y {
-		return x
-	}
-	return y
-}
