@@ -73,3 +73,23 @@ func FindStringSubmatch(rx *regexp.Regexp, s string, expectedLen int) []string {
 	}
 	return m
 }
+
+func parseListOfNumbersBase[T any](s string, atoi func(string) T) []T {
+	sp := strings.Split(s, " ")
+	ret := make([]T, 0, len(sp))
+	for _, i := range sp {
+		if i == "" {
+			continue
+		}
+		ret = append(ret, atoi(i))
+	}
+	return ret
+}
+
+func ParseListOfNumbers(s string) []int {
+	return parseListOfNumbersBase(s, Atoi)
+}
+
+func ParseListOfNumbers64(s string) []int64 {
+	return parseListOfNumbersBase(s, Atoi64)
+}

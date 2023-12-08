@@ -38,7 +38,7 @@ const (
 )
 
 func ParseInput() ([]int64, []RangeMap, []RangeMap, []RangeMap, []RangeMap, []RangeMap, []RangeMap, []RangeMap) {
-	seeds := make([]int64, 0, 50)
+	var seeds []int64
 	seedToSoil := make([]RangeMap, 0, 50)
 	soilToFertilizer := make([]RangeMap, 0, 50)
 	fertilizerToWater := make([]RangeMap, 0, 50)
@@ -70,10 +70,7 @@ outer:
 				state++
 				continue
 			}
-			seedsSpl := strings.Split(strings.Split(s, ": ")[1], " ")
-			for _, ss := range seedsSpl {
-				seeds = append(seeds, must.Atoi64(ss))
-			}
+			seeds = must.ParseListOfNumbers64(strings.Split(s, ": ")[1])
 			log.Printf("seeds: %v", seeds)
 			continue
 		case stateSeedToSoil, stateSoilToFertilizer, stateFertilizerToWater, stateWaterToLight, stateLightToTemperature, stateTemperatureToHumidity, stateHumidityToLocation:
@@ -81,11 +78,11 @@ outer:
 				state++
 				continue
 			}
-			rSpl := strings.Split(s, " ")
+			rSpl := must.ParseListOfNumbers64(s)
 			rMap = RangeMap{
-				Dst:  must.Atoi64(rSpl[0]),
-				Src:  must.Atoi64(rSpl[1]),
-				RLen: must.Atoi64(rSpl[2]),
+				Dst:  rSpl[0],
+				Src:  rSpl[1],
+				RLen: rSpl[2],
 			}
 		case stateSeedToSoilHeader, stateSoilToFertilizerHeader, stateFertilizerToWaterHeader, stateWaterToLightHeader, stateLightToTemperatureHeader, stateTemperatureToHumidityHeader, stateHumidityToLocationHeader:
 			state++

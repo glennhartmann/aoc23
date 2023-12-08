@@ -20,25 +20,18 @@ func main() {
 		sSplit := strings.Split(s, ": ")
 		data := sSplit[1]
 		dataSplit := strings.Split(data, " | ")
-		winnersStr := strings.Split(dataSplit[0], " ")
-		mineStr := strings.Split(dataSplit[1], " ")
+		winnersSlice := must.ParseListOfNumbers(dataSplit[0])
+		mine := must.ParseListOfNumbers(dataSplit[1])
 
-		winners := make(map[int]struct{}, len(winnersStr))
-		for _, winner := range winnersStr {
-			if winner == "" {
-				continue
-			}
-			winners[must.Atoi(winner)] = struct{}{}
+		winners := make(map[int]struct{}, len(winnersSlice))
+		for _, winner := range winnersSlice {
+			winners[winner] = struct{}{}
 		}
 
 		numWinners := 0
-		for _, myNum := range mineStr {
-			if myNum == "" {
-				continue
-			}
-			num := must.Atoi(myNum)
-			if _, ok := winners[num]; ok {
-				log.Printf("Card %d: %d is a winning number", cardNum, num)
+		for _, myNum := range mine {
+			if _, ok := winners[myNum]; ok {
+				log.Printf("Card %d: %d is a winning number", cardNum, myNum)
 				numWinners++
 			}
 		}
