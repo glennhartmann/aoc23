@@ -7,22 +7,18 @@ import (
 )
 
 func main() {
-	seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation := c05.ParseInput()
+	seeds, maps := c05.ParseInput()
 
 	minLocation := int64(-1)
 	for _, seed := range seeds {
-		soil := resolveMaps(seed, seedToSoil)
-		fertilizer := resolveMaps(soil, soilToFertilizer)
-		water := resolveMaps(fertilizer, fertilizerToWater)
-		light := resolveMaps(water, waterToLight)
-		temperature := resolveMaps(light, lightToTemperature)
-		humidity := resolveMaps(temperature, temperatureToHumidity)
-		location := resolveMaps(humidity, humidityToLocation)
+		mappedVal := seed
+		for _, m := range maps {
+			mappedVal = resolveMaps(mappedVal, m)
+		}
+		log.Printf("seed %d corresponds to location %d", seed, mappedVal)
 
-		log.Printf("seed %d corresponds to location %d", seed, location)
-
-		if minLocation == int64(-1) || location < minLocation {
-			minLocation = location
+		if minLocation == int64(-1) || mappedVal < minLocation {
+			minLocation = mappedVal
 		}
 
 		log.Printf("min location so far: %d", minLocation)

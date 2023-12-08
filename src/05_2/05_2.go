@@ -12,7 +12,7 @@ type normalRange struct {
 }
 
 func main() {
-	seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation := c05.ParseInput()
+	seeds, maps := c05.ParseInput()
 
 	seedRanges := make([]normalRange, 0, len(seeds)/2)
 	for i := 0; i < len(seeds); i += 2 {
@@ -23,18 +23,15 @@ func main() {
 		log.Printf("adding normalRange of seeds: %v", seedRanges[len(seedRanges)-1])
 	}
 
-	soil := resolveMaps(seedRanges, seedToSoil)
-	fertilizer := resolveMaps(soil, soilToFertilizer)
-	water := resolveMaps(fertilizer, fertilizerToWater)
-	light := resolveMaps(water, waterToLight)
-	temperature := resolveMaps(light, lightToTemperature)
-	humidity := resolveMaps(temperature, temperatureToHumidity)
-	location := resolveMaps(humidity, humidityToLocation)
+	mappedVal := seedRanges
+	for _, m := range maps {
+		mappedVal = resolveMaps(mappedVal, m)
+	}
 
-	log.Printf("seed ranges %v correspond to location ranges %v", seedRanges, location)
+	log.Printf("seed ranges %v correspond to location ranges %v", seedRanges, mappedVal)
 
 	minLocation := int64(-1)
-	for _, lcn := range location {
+	for _, lcn := range mappedVal {
 		if minLocation == int64(-1) || lcn.start < minLocation {
 			minLocation = lcn.start
 		}
