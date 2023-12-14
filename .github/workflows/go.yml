@@ -85,10 +85,10 @@ jobs:
       run: go build -v github.com/glennhartmann/aoc23/src/10_2
 
     - name: Build 11_1
-      run: go build -v github.com/glennhartmann/aoc23/src/10_1
+      run: go build -v github.com/glennhartmann/aoc23/src/11_1
 
     - name: Build 11_2
-      run: go build -v github.com/glennhartmann/aoc23/src/10_2
+      run: go build -v github.com/glennhartmann/aoc23/src/11_2
 
     - name: Build common_11
       run: go build -v github.com/glennhartmann/aoc23/src/common_11
