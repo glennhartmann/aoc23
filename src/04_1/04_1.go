@@ -15,8 +15,8 @@ func main() {
 		sSplit := strings.Split(s, ": ")
 		data := sSplit[1]
 		dataSplit := strings.Split(data, " | ")
-		winnersSlice := must.ParseListOfNumbers(dataSplit[0])
-		mine := must.ParseListOfNumbers(dataSplit[1])
+		winnersSlice := must.ParseListOfNumbers(dataSplit[0], " ")
+		mine := must.ParseListOfNumbers(dataSplit[1], " ")
 
 		winners := make(map[int]struct{}, len(winnersSlice))
 		for _, winner := range winnersSlice {

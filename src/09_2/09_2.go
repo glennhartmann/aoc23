@@ -11,7 +11,7 @@ func main() {
 
 	sum := int64(0)
 	for i, line := range lines {
-		nums := must.ParseListOfNumbers64(line)
+		nums := must.ParseListOfNumbers64(line, " ")
 		nums = append([]int64{0}, nums...)
 		log.Printf("line %d: %v", i, nums)
 

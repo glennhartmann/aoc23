@@ -16,7 +16,7 @@ type RangeMap struct {
 func ParseInput() ([]int64, [][]RangeMap) {
 	lines := must.GetFullInput()
 
-	seeds := must.ParseListOfNumbers64(strings.Split(lines[0], ": ")[1])
+	seeds := must.ParseListOfNumbers64(strings.Split(lines[0], ": ")[1], " ")
 	log.Printf("seeds: %v", seeds)
 
 	maps := [][]RangeMap{
@@ -38,7 +38,7 @@ func ParseInput() ([]int64, [][]RangeMap) {
 			continue
 		}
 
-		rSpl := must.ParseListOfNumbers64(lines[i])
+		rSpl := must.ParseListOfNumbers64(lines[i], " ")
 		rMap := RangeMap{
 			Dst:  rSpl[0],
 			Src:  rSpl[1],
