@@ -102,6 +102,12 @@ jobs:
     - name: Build 14_2
       run: go build -v github.com/glennhartmann/aoc23/src/14_2
 
+    - name: Build 15_1
+      run: go build -v github.com/glennhartmann/aoc23/src/15_1
+
+    - name: Build 15_2
+      run: go build -v github.com/glennhartmann/aoc23/src/15_2
+
     - name: Build common_11
       run: go build -v github.com/glennhartmann/aoc23/src/common_11
 
