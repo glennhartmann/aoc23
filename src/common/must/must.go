@@ -3,6 +3,7 @@ package must
 
 import (
 	"bufio"
+	"encoding/json"
 	"io"
 	"log"
 	"os"
@@ -16,7 +17,7 @@ import (
 func Atoi(s string) int {
 	i, err := strconv.Atoi(s)
 	if err != nil {
-		common.Panicf("invalid int for Atoi: %s", s)
+		common.Panicf("invalid int for Atoi: %s (%v)", s, err)
 	}
 	return i
 }
@@ -24,7 +25,7 @@ func Atoi(s string) int {
 func Atoi64(s string) int64 {
 	i, err := strconv.ParseInt(s, 10, 64)
 	if err != nil {
-		common.Panicf("invalid int64 for Atoi64: %s", s)
+		common.Panicf("invalid int64 for Atoi64: %s (%v)", s, err)
 	}
 	return i
 }
@@ -101,4 +102,20 @@ func ParseListOfNumbers(s, sep string) []int {
 
 func ParseListOfNumbers64(s, sep string) []int64 {
 	return parseListOfNumbersBase(s, sep, Atoi64)
+}
+
+func JSONMarshal(v any) []byte {
+	b, err := json.Marshal(v)
+	if err != nil {
+		common.Panicf("json marshal failed: %v", err)
+	}
+	return b
+}
+
+func JSONMarshalIndent(v any, prefix, indent string) []byte {
+	b, err := json.MarshalIndent(v, prefix, indent)
+	if err != nil {
+		common.Panicf("json marshal failed: %v", err)
+	}
+	return b
 }

@@ -6,12 +6,13 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/glennhartmann/aoc23/src/common"
 	"github.com/glennhartmann/aoc23/src/common/must"
 )
 
 func main() {
 	lines := must.GetFullInput()
-	spLines := split(lines, "")
+	spLines := common.SplitSlice(lines, []string{""})
 
 	sum := 0
 	for i, pattern := range spLines {
@@ -88,21 +89,6 @@ func cols(rows []string) []string {
 	ret := make([]string, len(sbs))
 	for i := range ret {
 		ret[i] = sbs[i].String()
-	}
-	return ret
-}
-
-func split(lines []string, sep string) [][]string {
-	ret := make([][]string, 0, len(lines)/5)
-	for {
-		i := slices.Index(lines, sep)
-		if i == -1 {
-			ret = append(ret, lines)
-			break
-		}
-
-		ret = append(ret, lines[:i])
-		lines = lines[i+1:]
 	}
 	return ret
 }

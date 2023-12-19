@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	c22 "github.com/glennhartmann/aoc22/src/common"
+	"golang.org/x/exp/constraints"
 )
 
 func IsDigit(b byte) bool {
@@ -44,4 +45,36 @@ func AddSentinal2[T any](lines [][]T, c T) [][]T {
 	}
 
 	return lines
+}
+
+type Equatable interface {
+	constraints.Complex | constraints.Float | constraints.Integer | ~string | ~bool | ~byte
+}
+
+func SplitSlice[T Equatable](slice []T, sep []T) [][]T {
+	ret := make([][]T, 0, len(slice)/5)
+	for {
+		i := SliceIndex(slice, sep)
+		if i == -1 {
+			ret = append(ret, slice)
+			break
+		}
+
+		ret = append(ret, slice[:i])
+		slice = slice[i+1:]
+	}
+	return ret
+}
+
+func SliceIndex[T Equatable](slice []T, target []T) int {
+outer:
+	for i := 0; i < len(slice)-len(target)+1; i++ {
+		for j := range target {
+			if slice[i+j] != target[j] {
+				continue outer
+			}
+		}
+		return i
+	}
+	return -1
 }
