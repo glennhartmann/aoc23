@@ -4,34 +4,11 @@ import (
 	"log"
 
 	"github.com/glennhartmann/aoc23/src/common"
+	"github.com/glennhartmann/aoc23/src/common/grid/d4"
 	"github.com/glennhartmann/aoc23/src/common/must"
 
 	c22 "github.com/glennhartmann/aoc22/src/common"
 )
-
-type direction int
-
-const (
-	up direction = iota
-	down
-	left
-	right
-)
-
-func (d direction) String() string {
-	switch d {
-	case up:
-		return "up"
-	case down:
-		return "down"
-	case left:
-		return "left"
-	case right:
-		return "right"
-	default:
-		panic("bad direction for stringer")
-	}
-}
 
 func main() {
 	lines := must.GetFullInput()
@@ -44,7 +21,7 @@ func main() {
 	lines = common.AddSentinal(lines, ".")
 	m = common.AddSentinal2(m, '.')
 
-	x, y := findStart(lines)
+	x, y := d4.MustFindInStringGrid(lines, 'S')
 	s := determineStartShape(lines, x, y)
 	log.Printf("start [%d, %d] is %c", x, y, s)
 
@@ -54,7 +31,7 @@ func main() {
 	dirs := getDirections(s)
 	dir := dirs[0]
 	for {
-		x, y = move(x, y, dir)
+		x, y = d4.GetNextCell(x, y, dir)
 		log.Printf("moving %v to [%d, %d]", dir, x, y)
 
 		if lines[y][x] == 'S' {
@@ -63,7 +40,7 @@ func main() {
 
 		m[y][x] = 'M' // part of Main loop
 
-		dir = getOtherDir(lines[y][x], oppositeDir(dir))
+		dir = getOtherDir(lines[y][x], d4.OppositeDir(dir))
 	}
 
 	log.Printf("secondary map main loop:\n%s", consolify(m))
@@ -71,7 +48,7 @@ func main() {
 	// categorize tiles adjacent to main loop as side 1 or side 2
 	// (we cheat and don't bother determining which side is 'in'
 	// and which is 'out')
-	x, y = findStart(lines)
+	x, y = d4.MustFindInStringGrid(lines, 'S')
 	dir = dirs[0]
 	side1Dir := getStartSide1Dir(s, dir)
 	adjacent := findAdjacentTilesInternal(lines, x, y, side1Dir, s)
@@ -87,14 +64,14 @@ func main() {
 			}
 		}
 
-		x, y = move(x, y, dir)
+		x, y = d4.GetNextCell(x, y, dir)
 
 		if lines[y][x] == 'S' {
 			break
 		}
 
 		oldDir := dir
-		dir = getOtherDir(lines[y][x], oppositeDir(dir))
+		dir = getOtherDir(lines[y][x], d4.OppositeDir(dir))
 		side1Dir = getSide1Dir(oldDir, side1Dir, lines[y][x])
 		adjacent = findAdjacentTiles(lines, x, y, side1Dir)
 	}
@@ -126,17 +103,6 @@ func main() {
 		}
 	}
 	log.Printf("final counts: side 1 (%d), side 2 (%d)", counts[0], counts[1])
-}
-
-func findStart(lines []string) (x, y int) {
-	for row := range lines {
-		for col := 0; col < len(lines[row]); col++ {
-			if lines[row][col] == 'S' {
-				return col, row
-			}
-		}
-	}
-	panic("start not found")
 }
 
 func determineStartShape(lines []string, x, y int) byte {
@@ -176,56 +142,26 @@ func connectsDown(p byte) bool {
 	return p == '|' || p == '7' || p == 'F'
 }
 
-func getDirections(p byte) []direction {
+func getDirections(p byte) []d4.Direction {
 	switch p {
 	case '|':
-		return []direction{up, down}
+		return []d4.Direction{d4.Up, d4.Down}
 	case '-':
-		return []direction{left, right}
+		return []d4.Direction{d4.Left, d4.Right}
 	case 'L':
-		return []direction{up, right}
+		return []d4.Direction{d4.Up, d4.Right}
 	case 'J':
-		return []direction{up, left}
+		return []d4.Direction{d4.Up, d4.Left}
 	case '7':
-		return []direction{down, left}
+		return []d4.Direction{d4.Down, d4.Left}
 	case 'F':
-		return []direction{down, right}
+		return []d4.Direction{d4.Down, d4.Right}
 	default:
 		panic("bad direction")
 	}
 }
 
-func move(x, y int, d direction) (xNew, yNew int) {
-	switch d {
-	case up:
-		return x, y - 1
-	case down:
-		return x, y + 1
-	case left:
-		return x - 1, y
-	case right:
-		return x + 1, y
-	default:
-		panic("bad direction for move")
-	}
-}
-
-func oppositeDir(dir direction) direction {
-	switch dir {
-	case up:
-		return down
-	case down:
-		return up
-	case left:
-		return right
-	case right:
-		return left
-	default:
-		panic("bad direction for opposite")
-	}
-}
-
-func getOtherDir(p byte, d direction) direction {
+func getOtherDir(p byte, d d4.Direction) d4.Direction {
 	dirs := getDirections(p)
 	if dirs[0] == d {
 		return dirs[1]
@@ -240,14 +176,14 @@ func consolify(m [][]byte) string {
 type adjacentTiles struct{ side1, side2 []point }
 type point struct{ x, y int }
 
-func findAdjacentTiles(lines []string, x, y int, d direction) adjacentTiles {
+func findAdjacentTiles(lines []string, x, y int, d d4.Direction) adjacentTiles {
 	return findAdjacentTilesInternal(lines, x, y, d, lines[y][x])
 }
 
-func findAdjacentTilesInternal(lines []string, x, y int, d direction, p byte) adjacentTiles {
+func findAdjacentTilesInternal(lines []string, x, y int, d d4.Direction, p byte) adjacentTiles {
 	adj := adjacentTiles{}
 	switch d {
-	case down:
+	case d4.Down:
 		switch p {
 		case '|':
 			break
@@ -294,7 +230,7 @@ func findAdjacentTilesInternal(lines []string, x, y int, d direction, p byte) ad
 		default:
 			panic("bad pipe in findAdjacentTiles down")
 		}
-	case up:
+	case d4.Up:
 		switch p {
 		case '|':
 			break
@@ -341,7 +277,7 @@ func findAdjacentTilesInternal(lines []string, x, y int, d direction, p byte) ad
 		default:
 			panic("bad pipe in findAdjacentTiles up")
 		}
-	case left:
+	case d4.Left:
 		switch p {
 		case '-':
 			break
@@ -388,7 +324,7 @@ func findAdjacentTilesInternal(lines []string, x, y int, d direction, p byte) ad
 		default:
 			panic("bad pipe in findAdjacentTiles left")
 		}
-	case right:
+	case d4.Right:
 		switch p {
 		case '-':
 			break
@@ -442,85 +378,85 @@ func findAdjacentTilesInternal(lines []string, x, y int, d direction, p byte) ad
 	return adj
 }
 
-func getSide1Dir(oldDir, oldSide1Dir direction, p byte) direction {
+func getSide1Dir(oldDir, oldSide1Dir d4.Direction, p byte) d4.Direction {
 	switch p {
 	case '-', '|':
 		return oldSide1Dir
 	case 'L':
-		if oldDir == down {
-			if oldSide1Dir == right {
-				return up
+		if oldDir == d4.Down {
+			if oldSide1Dir == d4.Right {
+				return d4.Up
 			}
-			return down
+			return d4.Down
 		}
-		if oldSide1Dir == up {
-			return right
+		if oldSide1Dir == d4.Up {
+			return d4.Right
 		}
-		return left
+		return d4.Left
 	case 'J':
-		if oldDir == down {
-			if oldSide1Dir == right {
-				return down
+		if oldDir == d4.Down {
+			if oldSide1Dir == d4.Right {
+				return d4.Down
 			}
-			return up
+			return d4.Up
 		}
-		if oldSide1Dir == up {
-			return left
+		if oldSide1Dir == d4.Up {
+			return d4.Left
 		}
-		return right
+		return d4.Right
 	case '7':
-		if oldDir == up {
-			if oldSide1Dir == right {
-				return up
+		if oldDir == d4.Up {
+			if oldSide1Dir == d4.Right {
+				return d4.Up
 			}
-			return down
+			return d4.Down
 		}
-		if oldSide1Dir == up {
-			return right
+		if oldSide1Dir == d4.Up {
+			return d4.Right
 		}
-		return left
+		return d4.Left
 	case 'F':
-		if oldDir == up {
-			if oldSide1Dir == right {
-				return down
+		if oldDir == d4.Up {
+			if oldSide1Dir == d4.Right {
+				return d4.Down
 			}
-			return up
+			return d4.Up
 		}
-		if oldSide1Dir == up {
-			return left
+		if oldSide1Dir == d4.Up {
+			return d4.Left
 		}
-		return right
+		return d4.Right
 	default:
 		panic("bad pipe in getSideDir")
 	}
 }
 
-func getStartSide1Dir(p byte, d direction) direction {
+func getStartSide1Dir(p byte, d d4.Direction) d4.Direction {
 	switch p {
 	case '|':
-		return left
+		return d4.Left
 	case '-':
-		return up
+		return d4.Up
 	case 'L':
-		if d == right {
-			return up
+		if d == d4.Right {
+			return d4.Up
 		}
-		return right
+		return d4.Right
 	case 'J':
-		if d == left {
-			return up
+		if d == d4.Left {
+			return d4.Up
 		}
-		return left
+		return d4.Left
 	case '7':
-		if d == left {
-			return down
+		if d == d4.Left {
+			return d4.Down
 		}
-		return left
+		return d4.Left
 	case 'F':
-		if d == right {
-			return down
+		if d == d4.Right {
+			return d4.Down
 		}
-		return right
+		return d4.Right
 	default:
 		panic("bad pipe in getStartSide1Dir")
 	}

@@ -4,38 +4,15 @@ import (
 	"log"
 
 	"github.com/glennhartmann/aoc23/src/common"
+	"github.com/glennhartmann/aoc23/src/common/grid/d4"
 	"github.com/glennhartmann/aoc23/src/common/must"
 )
-
-type direction int
-
-const (
-	up direction = iota
-	down
-	left
-	right
-)
-
-func (d direction) String() string {
-	switch d {
-	case up:
-		return "up"
-	case down:
-		return "down"
-	case left:
-		return "left"
-	case right:
-		return "right"
-	default:
-		panic("bad direction for stringer")
-	}
-}
 
 func main() {
 	lines := must.GetFullInput()
 	lines = common.AddSentinal(lines, ".")
 
-	x, y := findStart(lines)
+	x, y := d4.MustFindInStringGrid(lines, 'S')
 	s := determineStartShape(lines, x, y)
 	log.Printf("start [%d, %d] is %c", x, y, s)
 
@@ -43,28 +20,17 @@ func main() {
 	dirs := getDirections(s)
 	dir := dirs[0]
 	for {
-		x, y = move(x, y, dir)
+		x, y = d4.GetNextCell(x, y, dir)
 		log.Printf("moving %v to [%d, %d]", dir, x, y)
 
 		if lines[y][x] == 'S' {
 			break
 		}
 		nodesVisited++
-		dir = getOtherDir(lines[y][x], oppositeDir(dir))
+		dir = getOtherDir(lines[y][x], d4.OppositeDir(dir))
 	}
 	log.Printf("visited %d nodes", nodesVisited)
 	log.Printf("farthest distance: %d", nodesVisited/2)
-}
-
-func findStart(lines []string) (x, y int) {
-	for row := range lines {
-		for col := 0; col < len(lines[row]); col++ {
-			if lines[row][col] == 'S' {
-				return col, row
-			}
-		}
-	}
-	panic("start not found")
 }
 
 func determineStartShape(lines []string, x, y int) byte {
@@ -104,56 +70,26 @@ func connectsDown(p byte) bool {
 	return p == '|' || p == '7' || p == 'F'
 }
 
-func getDirections(p byte) []direction {
+func getDirections(p byte) []d4.Direction {
 	switch p {
 	case '|':
-		return []direction{up, down}
+		return []d4.Direction{d4.Up, d4.Down}
 	case '-':
-		return []direction{left, right}
+		return []d4.Direction{d4.Left, d4.Right}
 	case 'L':
-		return []direction{up, right}
+		return []d4.Direction{d4.Up, d4.Right}
 	case 'J':
-		return []direction{up, left}
+		return []d4.Direction{d4.Up, d4.Left}
 	case '7':
-		return []direction{down, left}
+		return []d4.Direction{d4.Down, d4.Left}
 	case 'F':
-		return []direction{down, right}
+		return []d4.Direction{d4.Down, d4.Right}
 	default:
 		panic("bad direction")
 	}
 }
 
-func move(x, y int, d direction) (xNew, yNew int) {
-	switch d {
-	case up:
-		return x, y - 1
-	case down:
-		return x, y + 1
-	case left:
-		return x - 1, y
-	case right:
-		return x + 1, y
-	default:
-		panic("bad direction for move")
-	}
-}
-
-func oppositeDir(dir direction) direction {
-	switch dir {
-	case up:
-		return down
-	case down:
-		return up
-	case left:
-		return right
-	case right:
-		return left
-	default:
-		panic("bad direction for opposite")
-	}
-}
-
-func getOtherDir(p byte, d direction) direction {
+func getOtherDir(p byte, d d4.Direction) d4.Direction {
 	dirs := getDirections(p)
 	if dirs[0] == d {
 		return dirs[1]
