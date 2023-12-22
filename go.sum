@@ -1,3 +1,5 @@
+github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/glennhartmann/aoc22 v0.0.4 h1:b5MV1XfAiGyzgQ0VB/NTJiYJHL1HomX424XWKKloHCg=
 github.com/glennhartmann/aoc22 v0.0.4/go.mod h1:ZSjRAUohGa++QBOMOgmr2rtn9Yzq4TtZHxQkusC32ZU=
 golang.org/x/exp v0.0.0-20221217163422-3c43f8badb15 h1:5oN1Pz/eDhCpbMbLstvIPa0b/BEQo6g6nwV3pLjfM6w=

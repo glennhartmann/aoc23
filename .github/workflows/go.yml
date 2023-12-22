@@ -120,6 +120,9 @@ jobs:
     - name: Build 19_1
       run: go build -v github.com/glennhartmann/aoc23/src/19_1
 
+    - name: Build 20_1
+      run: go build -v github.com/glennhartmann/aoc23/src/20_1
+
     - name: Build common_11
       run: go build -v github.com/glennhartmann/aoc23/src/common_11
 

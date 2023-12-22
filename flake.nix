@@ -12,7 +12,7 @@
           pname = "aoc23";
           version = "v0.0.0";
           src = builtins.path { path = ./.; name = "aoc23"; };
-          vendorHash = "sha256-m/NuMtAmCJaxxzOMidHUWoWQpCxTLqyQYQkzzr3HNfE=";
+          vendorHash = "sha256-eBPZRr2r2Y9kYwK1/vDCakl9cVwexlaX0D8NlBRrDGs=";
         };
       in
       {
