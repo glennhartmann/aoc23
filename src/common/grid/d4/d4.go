@@ -42,6 +42,6 @@ func OppositeDir(dir Direction) Direction {
 	return Direction(d8.OppositeDir(d8.Direction(dir)))
 }
 
-func MustFindInStringGrid(lines []string, c byte) (x, y int) {
-	return d8.MustFindInStringGrid(lines, c)
+func MustFindInStringGrid(lines []string, char byte) (r, c int) {
+	return d8.MustFindInStringGrid(lines, char)
 }

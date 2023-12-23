@@ -87,14 +87,14 @@ func OppositeDir(dir Direction) Direction {
 	return Direction(-1)
 }
 
-func MustFindInStringGrid(lines []string, c byte) (x, y int) {
+func MustFindInStringGrid(lines []string, char byte) (r, c int) {
 	for row := range lines {
 		for col := 0; col < len(lines[row]); col++ {
-			if lines[row][col] == c {
-				return col, row
+			if lines[row][col] == char {
+				return row, col
 			}
 		}
 	}
-	common.Panicf("%c not found", c)
+	common.Panicf("%c not found", char)
 	return -1, -1
 }
