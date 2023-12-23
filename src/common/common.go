@@ -78,3 +78,19 @@ outer:
 	}
 	return -1
 }
+
+func StringSliceToByteSlice2(strs []string) [][]byte {
+	ret := make([][]byte, len(strs))
+	for i := range ret {
+		ret[i] = []byte(strs[i])
+	}
+	return ret
+}
+
+func ByteSlice2ToStringSlice(bs [][]byte) []string {
+	ret := make([]string, len(bs))
+	for i := range ret {
+		ret[i] = string(bs[i])
+	}
+	return ret
+}

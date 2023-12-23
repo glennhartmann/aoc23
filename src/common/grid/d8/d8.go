@@ -98,3 +98,27 @@ func MustFindInStringGrid(lines []string, char byte) (r, c int) {
 	common.Panicf("%c not found", char)
 	return -1, -1
 }
+
+func DirForUDLR(c string) Direction {
+	switch c {
+	case "U":
+		return Up
+	case "D":
+		return Down
+	case "L":
+		return Left
+	case "R":
+		return Right
+	case "UL":
+		return UpLeft
+	case "UR":
+		return UpRight
+	case "DL":
+		return DownLeft
+	case "DR":
+		return DownRight
+	default:
+		common.Panicf("invalid direction: %s", c)
+	}
+	return Direction(-1)
+}

@@ -68,12 +68,7 @@ func GetFullInput() []string {
 }
 
 func GetFullInputAsBytes() [][]byte {
-	strs := GetFullInput()
-	ret := make([][]byte, len(strs))
-	for i := range ret {
-		ret[i] = []byte(strs[i])
-	}
-	return ret
+	return common.StringSliceToByteSlice2(GetFullInput())
 }
 
 func FindStringSubmatch(rx *regexp.Regexp, s string, expectedLen int) []string {
