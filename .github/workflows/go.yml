@@ -129,5 +129,11 @@ jobs:
     - name: Build common
       run: go build -v github.com/glennhartmann/aoc23/src/common
 
+    - name: Build common/grid/d4
+      run: go build -v github.com/glennhartmann/aoc23/src/common/grid/d4
+
+    - name: Build common/grid/d8
+      run: go build -v github.com/glennhartmann/aoc23/src/common/grid/d8
+
     - name: Build common/must
       run: go build -v github.com/glennhartmann/aoc23/src/common/must
