@@ -31,7 +31,7 @@ func main() {
 	dirs := getDirections(s)
 	dir := dirs[0]
 	for {
-		x, y = d4.GetNextCell(x, y, dir)
+		y, x = d4.GetNextCell(y, x, dir)
 		log.Printf("moving %v to [%d, %d]", dir, x, y)
 
 		if lines[y][x] == 'S' {
@@ -64,7 +64,7 @@ func main() {
 			}
 		}
 
-		x, y = d4.GetNextCell(x, y, dir)
+		y, x = d4.GetNextCell(y, x, dir)
 
 		if lines[y][x] == 'S' {
 			break
