@@ -86,7 +86,7 @@ func parseListOfNumbersBase[T any](s, sep string, atoi func(string) T) []T {
 		if i == "" {
 			continue
 		}
-		ret = append(ret, atoi(i))
+		ret = append(ret, atoi(strings.TrimSpace(i)))
 	}
 	return ret
 }
