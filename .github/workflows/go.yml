@@ -126,6 +126,9 @@ jobs:
     - name: Build 20_1
       run: go build -v github.com/glennhartmann/aoc23/src/20_1
 
+    - name: Build 22_1
+      run: go build -v github.com/glennhartmann/aoc23/src/22_1
+
     - name: Build 24_1
       run: go build -v github.com/glennhartmann/aoc23/src/24_1
 
