@@ -7,7 +7,7 @@ import (
 	"github.com/glennhartmann/aoc23/src/common/must"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/glennhartmann/aoc22/src/queue"
+	"github.com/glennhartmann/aoclib/queue"
 )
 
 type moduleType int

@@ -5,7 +5,7 @@ import (
 
 	"github.com/glennhartmann/aoc23/src/common/must"
 
-	c22 "github.com/glennhartmann/aoc22/src/common"
+	c22 "github.com/glennhartmann/aoclib/common"
 )
 
 type point struct {

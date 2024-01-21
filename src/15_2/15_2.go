@@ -6,7 +6,7 @@ import (
 
 	"github.com/glennhartmann/aoc23/src/common/must"
 
-	dll "github.com/glennhartmann/aoc22/src/doubly_linked_list"
+	dll "github.com/glennhartmann/aoclib/doubly_linked_list"
 )
 
 type labelVal struct {

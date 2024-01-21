@@ -3,7 +3,7 @@ package common
 import (
 	"fmt"
 
-	c22 "github.com/glennhartmann/aoc22/src/common"
+	c22 "github.com/glennhartmann/aoclib/common"
 	"golang.org/x/exp/constraints"
 )
 

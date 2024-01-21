@@ -6,7 +6,7 @@ import (
 	"github.com/glennhartmann/aoc23/src/common"
 	"github.com/glennhartmann/aoc23/src/common/grid/d4"
 
-	c22 "github.com/glennhartmann/aoc22/src/common"
+	c22 "github.com/glennhartmann/aoclib/common"
 )
 
 // part 1 main
