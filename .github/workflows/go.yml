@@ -84,11 +84,17 @@ jobs:
     - name: Build 10_2
       run: go build -v github.com/glennhartmann/aoc23/src/10_2
 
+    - name: Build common_10
+      run: go build -v github.com/glennhartmann/aoc23/src/common_10
+
     - name: Build 11_1
       run: go build -v github.com/glennhartmann/aoc23/src/11_1
 
     - name: Build 11_2
       run: go build -v github.com/glennhartmann/aoc23/src/11_2
+
+    - name: Build common_11
+      run: go build -v github.com/glennhartmann/aoc23/src/common_11
 
     - name: Build 12_1
       run: go build -v github.com/glennhartmann/aoc23/src/12_1
@@ -134,21 +140,3 @@ jobs:
 
     - name: Build 24_1
       run: go build -v github.com/glennhartmann/aoc23/src/24_1
-
-    - name: Build common_10
-      run: go build -v github.com/glennhartmann/aoc23/src/common_10
-
-    - name: Build common_11
-      run: go build -v github.com/glennhartmann/aoc23/src/common_11
-
-    - name: Build common
-      run: go build -v github.com/glennhartmann/aoc23/src/common
-
-    - name: Build common/grid/d4
-      run: go build -v github.com/glennhartmann/aoc23/src/common/grid/d4
-
-    - name: Build common/grid/d8
-      run: go build -v github.com/glennhartmann/aoc23/src/common/grid/d8
-
-    - name: Build common/must
-      run: go build -v github.com/glennhartmann/aoc23/src/common/must

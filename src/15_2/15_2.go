@@ -4,9 +4,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/glennhartmann/aoc23/src/common/must"
-
 	dll "github.com/glennhartmann/aoclib/doubly_linked_list"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 type labelVal struct {

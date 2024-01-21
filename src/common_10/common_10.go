@@ -3,10 +3,9 @@ package common_10
 import (
 	"log"
 
-	"github.com/glennhartmann/aoc23/src/common"
-	"github.com/glennhartmann/aoc23/src/common/grid/d4"
-
+	"github.com/glennhartmann/aoclib/common"
 	c22 "github.com/glennhartmann/aoclib/common"
+	"github.com/glennhartmann/aoclib/grid/d4"
 )
 
 // part 1 main

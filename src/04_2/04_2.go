@@ -4,7 +4,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/glennhartmann/aoc23/src/common/must"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 const cardNums = 204 // hardcoded based on inputs/04.txt

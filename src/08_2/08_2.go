@@ -4,7 +4,7 @@ import (
 	"log"
 	"regexp"
 
-	"github.com/glennhartmann/aoc23/src/common/must"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 var rx = regexp.MustCompile(`(.{3}) = \((.{3}), (.{3})\)`)

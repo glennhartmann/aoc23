@@ -3,9 +3,8 @@ package common_11
 import (
 	"log"
 
-	"github.com/glennhartmann/aoc23/src/common/must"
-
 	c22 "github.com/glennhartmann/aoclib/common"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 type point struct {

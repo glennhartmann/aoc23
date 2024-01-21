@@ -5,9 +5,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/glennhartmann/aoc23/src/common"
-	"github.com/glennhartmann/aoc23/src/common/grid/d4"
-	"github.com/glennhartmann/aoc23/src/common/must"
+	"github.com/glennhartmann/aoclib/common"
+	"github.com/glennhartmann/aoclib/grid/d4"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 type beam struct {

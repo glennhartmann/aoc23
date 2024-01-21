@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/glennhartmann/aoc23/src/common"
-	"github.com/glennhartmann/aoc23/src/common/must"
+	"github.com/glennhartmann/aoclib/common"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 type handBid struct {

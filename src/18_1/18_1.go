@@ -4,10 +4,11 @@ import (
 	"log"
 	"regexp"
 
-	"github.com/glennhartmann/aoc23/src/common"
-	"github.com/glennhartmann/aoc23/src/common/grid/d4"
-	"github.com/glennhartmann/aoc23/src/common/must"
 	c10 "github.com/glennhartmann/aoc23/src/common_10"
+
+	"github.com/glennhartmann/aoclib/common"
+	"github.com/glennhartmann/aoclib/grid/d4"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 var lineRx = regexp.MustCompile(`(U|D|L|R) (\d+) \((#[[:xdigit:]]{6})\)`)

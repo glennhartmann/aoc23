@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/glennhartmann/aoc23/src/common/must"
 	c10 "github.com/glennhartmann/aoc23/src/common_10"
+
+	"github.com/glennhartmann/aoclib/must"
 )
 
 func main() {

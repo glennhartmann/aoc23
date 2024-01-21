@@ -6,9 +6,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/glennhartmann/aoc23/src/common/must"
-
 	"github.com/davecgh/go-spew/spew"
+	"github.com/glennhartmann/aoclib/must"
 )
 
 type brick struct {

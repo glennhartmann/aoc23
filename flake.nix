@@ -10,9 +10,9 @@
         pkgs = import nixpkgs { inherit system; };
         aoc23 = pkgs.buildGoModule {
           pname = "aoc23";
-          version = "v0.0.2";
+          version = "v0.0.3";
           src = builtins.path { path = ./.; name = "aoc23"; };
-          vendorHash = "sha256-Tx5t124dhn+qZhwvZ9MfIQt9dG7olCFG1NCDLkWQjOM=";
+          vendorHash = "sha256-l1oLyg8HvT32yp8imfpouUR4vFkbb6QThKnpNeP7o30=";
         };
       in
       {
